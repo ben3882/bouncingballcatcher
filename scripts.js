@@ -6,6 +6,31 @@ const ctx = canvas.getContext("2d");
 const width = (canvas.width = window.innerWidth);
 const height = (canvas.height = window.innerHeight);
 
+// initialize a ballsCaught accumulator
+let ballsCaught = 0;
+
+//game timer
+let sec = -1;
+let min = 0;
+
+function timer() {
+  sec++;
+  if(sec<10){
+    sec = '0' + sec;
+  }
+  if(sec>=60){
+    sec = '00';
+    min++;
+  }
+  
+  timerDisplay.innerText = `Game timer: ${min}:${sec}`;
+}
+
+let timeSum = setInterval(timer, 1000);
+
+let timerDisplay = document.querySelector('.timer');
+
+
 // function to generate random number
 
 function random(min, max) {
@@ -149,11 +174,14 @@ class EvilCircle extends Shape {
         const dy = this.y - ball.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < this.size + ball.size) {
-          document.querySelector('h2').innerText = 'collision detected';
+          ballsCaught++;
+          document.querySelector('h2').innerText = `Balls caught: ${ballsCaught}`;
           ball.exists = false;
-          setTimeout(()=>document.querySelector('h2').innerText = '', 1000)
-          
-        }  
+          if(ballsCaught >= 25) {
+              document.querySelector('h2').innerText = 'All balls caught!';
+              clearInterval(timeSum);
+          }  
+        }
       }
     }
   }
