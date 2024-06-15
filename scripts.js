@@ -102,7 +102,17 @@ class EvilCircle extends Shape {
           break;
       }
     });
-    
+    window.addEventListener('pointermove', (e)=>{
+      e.preventDefault();
+      console.log('pointer down', e.clientX, e.clientY);
+      this.x = e.x; 
+      this.y = e.y;
+    });
+    // window.addEventListener('touch', (e)=>{
+    //   console.log('pointer down', e.clientX, e.clientY);
+    //   this.x = e.x; 
+    //   this.y = e.y;
+    // });
   }
 
   draw() {
